@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.API.Tests"
 		{E0E4A1FA-E7F3-4285-9E0B-78907BD17D35} = {E0E4A1FA-E7F3-4285-9E0B-78907BD17D35}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionStore.Core.Tests", "TransactionStore.Core.Tests\TransactionStore.Core.Tests.csproj", "{62141529-663F-40AC-95C4-905C670A6249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.Core.Tests", "TransactionStore.Core.Tests\TransactionStore.Core.Tests.csproj", "{62141529-663F-40AC-95C4-905C670A6249}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

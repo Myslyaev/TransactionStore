@@ -14,7 +14,7 @@ public class AccountsController(ITransactionsService transactionsService) : Cont
     [HttpGet("{id}/transactions")]
     public async Task<ActionResult<List<TransactionResponse>>> GetTransactionsByAccountId(Guid id)
     {
-        _logger.Information($"Getting transactions for account with Id {id}. / Получаем транзакции аккаунта c Id {id}.");
+        _logger.Information($"Getting transactions for account with Id {id}.");
         var transactions = await transactionsService.GetTransactionsByAccountIdAsync(id);
         return Ok(transactions);
     }
@@ -22,7 +22,7 @@ public class AccountsController(ITransactionsService transactionsService) : Cont
     [HttpGet("{id}/balance")]
     public async Task<ActionResult<AccountBalanceResponse>> GetBalanceByAccountId(Guid id)
     {
-        _logger.Information($"Getting balance for account with Id {id}. / Получаем баланс аккаунта c Id {id}.");
+        _logger.Information($"Getting balance for account with Id {id}.");
         var balance = await transactionsService.GetBalanceByAccountIdAsync(id);
         return Ok(balance);
     }

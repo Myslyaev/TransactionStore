@@ -1,7 +1,7 @@
 using Serilog;
 using System.Net;
+using TransactionStore.API.Configuration.Exceptions;
 using TransactionStore.Core.Exceptions;
-using ArgumentNullException = TransactionStore.Core.Exceptions.ArgumentNullException;
 
 namespace TransactionStore.API.Configuration;
 
@@ -17,23 +17,27 @@ public class ExceptionMiddleware(RequestDelegate next)
         }
         catch (ValidationException ex)
         {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.UnprocessableEntity, "Ошибка валидации. / Validation error.");
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.UnprocessableEntity, "Validation error.");
         }
         catch (NotFoundException ex)
         {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound, "Контент не найден. / Content not found error.");
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound, "Content not found error.");
         }
         catch (ServiceUnavailableException ex)
         {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.ServiceUnavailable, "Нет соединения с базой данных. / There is no connection to the database.");
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.ServiceUnavailable, "There is no connection to the database.");
         }
         catch (ForbiddenException ex)
         {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.Forbidden, "Доступ запрещен. / Access denied.");
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.Forbidden, "Access denied.");
         }
-        catch (ArgumentNullException ex)
+        catch (Core.Exceptions.ArgumentNullException ex)
         {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, "Значение не должно быть null. / The value must not be null.");
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, "The value must not be null.");
+        }
+        catch (NoConfigurationException ex)
+        {
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.VariantAlsoNegotiates, "Configuration not found.");
         }
         catch (Exception ex)
         {

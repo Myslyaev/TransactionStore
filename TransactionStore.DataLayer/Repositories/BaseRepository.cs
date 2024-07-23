@@ -1,10 +1,6 @@
 ﻿namespace TransactionStore.DataLayer.Repositories;
 
-public class BaseRepository
+public class BaseRepository(TransactionStoreContext context)
 {
-    protected readonly TransactionStoreContext _ctx;
-    public BaseRepository(TransactionStoreContext context)
-    {
-        _ctx = context;
-    }
+    protected readonly TransactionStoreContext _ctx = context;
 }

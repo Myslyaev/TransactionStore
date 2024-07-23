@@ -8,6 +8,7 @@ namespace TransactionStore.DataLayer;
 public class TransactionStoreContext(DbContextOptions<TransactionStoreContext> options) : DbContext(options)
 {
     public DbSet<TransactionDto> Transactions { get; set; }
+    public DbSet<CurrencyRateDto> CurrencyRates { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

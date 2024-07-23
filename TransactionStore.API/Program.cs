@@ -1,19 +1,19 @@
 using Serilog;
 using TransactionStore.API.Configuration;
-using TransactionStore.API.Extensions;
 using TransactionStore.Business;
 using TransactionStore.DataLayer;
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-    builder.Logging.ClearProviders();
+    builder.Configuration.AddJsonFile("appsettings.DefaultConfiguration.json", optional: false, reloadOnChange: true);
+    await builder.Configuration.ReadSettingsFromConfigurationManager();
 
     Log.Logger = new LoggerConfiguration()
-        .ReadFrom.Configuration(builder.Configuration)
-        .CreateLogger();
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+    builder.Logging.ClearProviders();
 
-    // Add services to the container.
     builder.Services.ConfigureApiServices(builder.Configuration);
     builder.Services.ConfigureBllServices();
     builder.Services.ConfigureDalServices();
@@ -32,7 +32,7 @@ try
 
     app.MapControllers();
 
-    Log.Information("Running up");
+    Log.Information("Running up.");
     await app.RunAsync();
 }
 catch (Exception ex)

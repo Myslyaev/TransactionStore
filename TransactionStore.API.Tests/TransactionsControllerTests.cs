@@ -73,11 +73,11 @@ public class TransactionsControllerTests
     }
 
     [Fact]
-    public async Task GetTransactionById_IdSent_OkResultReceived()
+    public async Task GetTransactionById_IdSent_OkResultReceieved()
     {
         // Arrange
         var id = Guid.NewGuid();
-        _transactionsServiceMock.Setup(x => x.GetTransactionByIdAsync(id)).ReturnsAsync([]);
+        _transactionsServiceMock.Setup(x => x.GetTransactionByIdAsync(id)).ReturnsAsync(new FullTransactionResponse());
         var controller = new TransactionsController(_transactionsServiceMock.Object);
 
         // Act
@@ -85,6 +85,37 @@ public class TransactionsControllerTests
 
         // Assert
         actual.Result.Should().BeOfType<OkObjectResult>();
+        _transactionsServiceMock.Verify(m => m.GetTransactionByIdAsync(id), Times.Once);
+    }
+
+    [Fact]
+    public async Task GetTransactionById_EmptyId_NotFoundResultReceived()
+    {
+        // Arrange
+        var id = Guid.Empty;
+        var controller = new TransactionsController(_transactionsServiceMock.Object);
+
+        // Act
+        var actual = await controller.GetTransactionById(id);
+
+        // Assert
+        actual.Result.Should().BeOfType<NotFoundObjectResult>();
+        _transactionsServiceMock.Verify(m => m.GetTransactionByIdAsync(It.IsAny<Guid>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task GetTransactionById_IdNotFound_NotFoundResultReceived()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        _transactionsServiceMock.Setup(x => x.GetTransactionByIdAsync(id)).ReturnsAsync((FullTransactionResponse)null);
+        var controller = new TransactionsController(_transactionsServiceMock.Object);
+
+        // Act
+        var actual = await controller.GetTransactionById(id);
+
+        // Assert
+        actual.Result.Should().BeOfType<NotFoundObjectResult>();
         _transactionsServiceMock.Verify(m => m.GetTransactionByIdAsync(id), Times.Once);
     }
 }

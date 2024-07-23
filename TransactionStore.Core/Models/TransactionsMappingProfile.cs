@@ -14,6 +14,5 @@ public class TransactionsMappingProfile : Profile
 
         CreateMap<TransactionDto, AccountBalanceResponse>();
         CreateMap<TransactionDto, TransactionResponse>();
-        CreateMap<TransactionDto, TransactionWithAccountIdResponse>();
     }
 }
